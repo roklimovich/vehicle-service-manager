@@ -3,11 +3,11 @@ package pl.pja.edu.s27619.vehicle;
 import pl.pja.edu.s27619.exceptions.CheckDataException;
 import pl.pja.edu.s27619.service.VehicleManager;
 import pl.pja.edu.s27619.vehicle.component.Engine;
+import pl.pja.edu.s27619.vehicle.repair.ServiceRecord;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 public class Vehicle implements Serializable {
 
@@ -19,6 +19,7 @@ public class Vehicle implements Serializable {
     private String color;
     private Engine engine;
     private List<String> sensors;
+    private Map<LocalDate, ServiceRecord> serviceRecords = new HashMap<>();
 
     /**
      * Constructor to initialize Vehicle object without a color.
@@ -35,7 +36,7 @@ public class Vehicle implements Serializable {
         setModel(model);
         setEngine(engine);
         this.sensors = new ArrayList<>();
-        VehicleManager.getRegisteredVehicles().add(this);
+        VehicleManager.getRegisteredVehicles().put(uniqueId, this);
     }
 
     /**
@@ -55,7 +56,86 @@ public class Vehicle implements Serializable {
         setColor(color);
         setEngine(engine);
         this.sensors = new ArrayList<>();
-        VehicleManager.getRegisteredVehicles().add(this);
+        VehicleManager.getRegisteredVehicles().put(uniqueId, this);
+    }
+
+    /**
+     * Generates a unique ID for the vehicle using counter of the Vehicle objects.
+     *
+     * @return String with unique ID in special format "VEHICLE-<idCounter>"
+     */
+    public String generateUniqueId() {
+        return "VEHICLE-" + (++idCounter);
+    }
+
+    /**
+     * This method adds service record to the vehicle.
+     *
+     * @param repairLog contains information about service record for vehicle
+     */
+    public void addServiceRecord(ServiceRecord repairLog) {
+        if (repairLog == null || repairLog.getServiceDate() == null) {
+            throw new CheckDataException("Repair log and date could not be null");
+        }
+
+        if (serviceRecords.containsKey(repairLog.getServiceDate())) {
+            throw new CheckDataException("Repair log already in service records for this date: "
+                    + repairLog.getServiceDate());
+        }
+
+        serviceRecords.put(repairLog.getServiceDate(), repairLog);
+        repairLog.linkVehicle(this);
+    }
+
+    /**
+     * This method is used be ServiceRecord class to make sure that bidirectional link back to Vehicle during
+     * composition.
+     *
+     * @param serviceRecord the service record which should be linked
+     */
+    public void linkServiceRecord(ServiceRecord serviceRecord) {
+        serviceRecords.put(serviceRecord.getServiceDate(), serviceRecord);
+    }
+
+    /**
+     * This method remove a service record from vehicle based on the given date, also ensures that the association is
+     * unlinked in both directions (Vehicle -> ServiceRecord and ServiceRecord -> Vehicle).
+     *
+     * @param date date of the service record to remove
+     */
+    public void removeServiceRecord(LocalDate date) {
+        if (serviceRecords.containsKey(date)) {
+            ServiceRecord removedRecord = serviceRecords.remove(date);
+            if (removedRecord != null) {
+                removedRecord.unlinkVehicle();
+            }
+
+        }
+    }
+
+    /**
+     * Find service record by the date from given service records for vehicle.
+     *
+     * @param date the date of the service
+     * @return an Optional containing ServiceRecords if found, otherwise empty
+     */
+    public Optional<ServiceRecord> getServiceRecordByDate(LocalDate date) {
+        return Optional.ofNullable(serviceRecords.get(date));
+    }
+
+    /**
+     * Method to display history of service records and show them to the user, sort them in ascending order by date.
+     */
+    public void displayServiceHistory() {
+        System.out.println("Service history for " + uniqueId + ":");
+        if (serviceRecords.isEmpty()) {
+            System.out.println("Service history is empty for this vehicle");
+        } else {
+            serviceRecords.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByKey())
+                    .forEach(System.out::println);
+        }
     }
 
     /**
@@ -79,6 +159,7 @@ public class Vehicle implements Serializable {
         System.out.println("Engine: " + engine);
         System.out.println("Color: " + (color != null ? color : "Not specified"));
         System.out.println("Sensors: " + sensors);
+        displayServiceHistory();
     }
 
     /**
@@ -95,10 +176,6 @@ public class Vehicle implements Serializable {
         this.vehicleType = vehicleType;
     }
 
-    public VehicleType getVehicleType() {
-        return vehicleType;
-    }
-
     /**
      * Method sets the name of the vehicle, if it is not null and not empty.
      *
@@ -111,10 +188,6 @@ public class Vehicle implements Serializable {
         }
 
         this.name = name;
-    }
-
-    public String getName() {
-        return name;
     }
 
     /**
@@ -131,10 +204,6 @@ public class Vehicle implements Serializable {
         this.model = model;
     }
 
-    public String getModel() {
-        return model;
-    }
-
     /**
      * Method sets the color of the vehicle, if it is not null and empty.
      *
@@ -149,10 +218,6 @@ public class Vehicle implements Serializable {
         this.color = color;
     }
 
-    public Optional<String> getColor() {
-        return Optional.ofNullable(color);
-    }
-
     /**
      * Methods adds sensors to the vehicle, only in case if sensor is not null or empty.
      *
@@ -165,10 +230,6 @@ public class Vehicle implements Serializable {
         }
 
         sensors.add(sensor);
-    }
-
-    public List<String> getSensors() {
-        return sensors;
     }
 
     /**
@@ -193,13 +254,24 @@ public class Vehicle implements Serializable {
         return uniqueId;
     }
 
-    /**
-     * Generates a unique ID for the vehicle using counter of the Vehicle objects.
-     *
-     * @return String with unique ID in special format "VEHICLE-<idCounter>"
-     */
-    public String generateUniqueId() {
-        return "VEHICLE-" + (++idCounter);
+    public VehicleType getVehicleType() {
+        return vehicleType;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<String> getSensors() {
+        return sensors;
+    }
+
+    public Optional<String> getColor() {
+        return Optional.ofNullable(color);
+    }
+
+    public String getModel() {
+        return model;
     }
 
 }

@@ -1,17 +1,17 @@
 package pl.pja.edu.s27619.service;
 
+import pl.pja.edu.s27619.exceptions.CheckDataException;
 import pl.pja.edu.s27619.vehicle.*;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class VehicleManager {
     private static final String FILE_NAME = "./Vehicle.ser";
-
-    private static List<Vehicle> registeredVehicles = new ArrayList<>();
-
-    public static List<Vehicle> getRegisteredVehicles() {
+    private static HashMap<String, Vehicle> registeredVehicles = new HashMap<>();
+    public static HashMap<String, Vehicle> getRegisteredVehicles() {
         return registeredVehicles;
     }
 
@@ -35,10 +35,32 @@ public class VehicleManager {
         try {
             FileInputStream fileInputStream = new FileInputStream(FILE_NAME);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
-            registeredVehicles = (List<Vehicle>) objectInputStream.readObject();
+            registeredVehicles = (HashMap<String, Vehicle>) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("No possibility to load registered vehicle from file " + e.getMessage());
         }
+    }
+
+
+    public static void deleteVehicle(String uniqueId) {
+        String givenId = uniqueId.toUpperCase();
+
+        if (!givenId.isBlank() && !registeredVehicles.containsKey(givenId)) {
+            throw new CheckDataException("No such id in registered vehicles");
+        }
+
+        registeredVehicles.remove(givenId);
+
+    }
+
+    public static Vehicle getVehicleById(String id) {
+        String givenId = id.toUpperCase();
+
+        if (!givenId.isBlank() && !registeredVehicles.containsKey(givenId)) {
+            throw new CheckDataException("No such id in registered vehicles");
+        }
+
+        return registeredVehicles.get(givenId);
     }
 
 }
