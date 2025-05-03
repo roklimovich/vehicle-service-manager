@@ -5,7 +5,9 @@ import pl.pja.edu.s27619.exceptions.CheckDataException;
 import java.io.Serializable;
 
 public class Engine implements Serializable {
-    private EngineType engineType;
+    private EngineType engineType; // multi-aspect
+    private EmissionLevel emissionLevel; // multi-aspect
+    private EngineCategory engineCategory; //multi-aspect
     private int power;
 
     /**
@@ -14,13 +16,12 @@ public class Engine implements Serializable {
      * @param engineType enum which contains engine type
      * @param power      integer variable contains power of the engine
      */
-    public Engine(EngineType engineType, int power) {
+    public Engine(EngineType engineType, EmissionLevel emissionLevel, EngineCategory engineCategory, int power) {
         setEngineType(engineType);
+        setEmissionLevel(emissionLevel);
+        setEngineCategory(engineCategory);
         setPower(power);
-    }
 
-    public EngineType getEngineType() {
-        return engineType;
     }
 
     /**
@@ -49,13 +50,54 @@ public class Engine implements Serializable {
         this.power = power;
     }
 
+    /**
+     * Method set emission level, checks if it is not null, otherwise throws exception.
+     *
+     * @param emissionLevel variable which contains enum of the emission level
+     */
+    public void setEmissionLevel(EmissionLevel emissionLevel) {
+        if (emissionLevel == null) {
+            throw new CheckDataException("Emission level could not be null");
+        }
+
+        this.emissionLevel = emissionLevel;
+    }
+
+    /**
+     * Method set engine category to the engine, check if it is not null, otherwise throws exception.
+     *
+     * @param engineCategory variable which contains enum of the engine category
+     */
+    public void setEngineCategory(EngineCategory engineCategory) {
+        if (engineCategory == null) {
+            throw new CheckDataException("Engine category could not be null");
+        }
+
+        this.engineCategory = engineCategory;
+    }
+
+    public EmissionLevel getEmissionLevel() {
+        return emissionLevel;
+    }
+
+    public EngineCategory getEngineCategory() {
+        return engineCategory;
+    }
+
     public int getPower() {
         return power;
     }
 
+    public EngineType getEngineType() {
+
+        return engineType;
+    }
+
     @Override
     public String toString() {
-        return engineType.toString() + " (" + power + " HP)";
+
+        return engineType.toString() + " (" + power + " HP) " + "Category: " + engineCategory.toString()
+                + "; Emission level: " + emissionLevel.toString();
     }
 
 }

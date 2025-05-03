@@ -1,107 +1,118 @@
 package pl.pja.edu.s27619;
 
-import pl.pja.edu.s27619.service.VehicleManager;
-import pl.pja.edu.s27619.vehicle.*;
+import pl.pja.edu.s27619.administration.Supervisor;
+import pl.pja.edu.s27619.clients.BasicClient;
+import pl.pja.edu.s27619.clients.Client;
+import pl.pja.edu.s27619.service.ClientManager;
+import pl.pja.edu.s27619.vehicle.Car;
+import pl.pja.edu.s27619.vehicle.VehicleType;
+import pl.pja.edu.s27619.vehicle.component.EmissionLevel;
 import pl.pja.edu.s27619.vehicle.component.Engine;
+import pl.pja.edu.s27619.vehicle.component.EngineCategory;
 import pl.pja.edu.s27619.vehicle.component.EngineType;
 import pl.pja.edu.s27619.vehicle.repair.ServiceRecord;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // generate CAR objects
-        Engine bmwEngine = new Engine(EngineType.PETROL, 723);
-        Car bmw = new Car(VehicleType.CAR, "BMW", "540i", bmwEngine, 5);
-        bmw.setSensors("ConnectedDrive"); // multi-valued attribute
-        bmw.setSensors("Autopilot"); // multi-valued attribute
+        // example of overlapping and multi-inheritance, using also abstract class for Admin
+        Supervisor supervisor = new Supervisor("Roman", "Klimovich", "test@pjwstk.edu.pl");
+        // example of usage methods which are implemented in interfaces
+        System.out.println("Calculated budget per month: " + supervisor.calculateBudgetPerMonth());;
+        supervisor.displayInfo();
+        // could be uncommented, but by the logic it breaks the application
+        //supervisor.breakTheSystem();
 
-        // generate ServiceRecords
-        ServiceRecord engineRepair = new ServiceRecord(LocalDate.of(2025, 4, 15),
-                "Engine replacement", 1560.0, bmw);
-        ServiceRecord oilChange = new ServiceRecord(LocalDate.of(2025, 3, 12),
-                "Oil replacement", 240.55, bmw);
+        // objects with abstract and disjoint class client
+        Client roman = new BasicClient("Roman", "Klimovich", "+48000000",
+                "test@gmail.com");
+        Client ksenia = new BasicClient("Ksenia", "Klimovich", "+375000000",
+                "test1@gmail.com");
 
-        System.out.println("Qualified association test:");
-        bmw.getServiceRecordByDate(LocalDate.of(2025, 4, 15))
-                .ifPresent(System.out::println);
-        bmw.getServiceRecordByDate(LocalDate.of(2025, 3, 12))
-                .ifPresent(System.out::println);
-
-        System.out.println("\nCheck reverse connection (ServiceRecord → Vehicle):");
-        System.out.println("Vehicle ID from service record: " + engineRepair.getVehicle().getUniqueId());
-
-
-        System.out.println("\nRemoving one ServiceRecord:");
-        bmw.removeServiceRecord(LocalDate.of(2025, 3, 12)); // delete oil replacement
-        bmw.displayServiceHistory(); // should be only one service record
+        // example of usage multi-aspect based in EmissionLevel, EngineCategory, EngineType
+        Engine bmwX6Engine = new Engine(EngineType.DIESEL, EmissionLevel.EURO_6,
+                EngineCategory.SPORT, 625);
+        Car bmwX6M = new Car(VehicleType.CAR, "BMW", "X6M", bmwX6Engine,5);
+        ClientManager.addVehicleToClient(ksenia, bmwX6M);
 
 
-        System.out.println("\nRe-adding removed ServiceRecord:");
-        bmw.addServiceRecord(oilChange); // add manually service record
-        bmw.displayServiceHistory(); // should be here two service records again
+        Engine bmwM550iEngine = new Engine(EngineType.PETROL, EmissionLevel.EURO_6,
+                EngineCategory.SPORT,530);
+        Car bmwM550i = new Car(VehicleType.CAR, "BMW", "M550i", bmwM550iEngine, 5);
+        ClientManager.addVehicleToClient(roman, bmwM550i);
+
+        Engine reanultDusterEngine = new Engine(EngineType.DIESEL, EmissionLevel.EURO_4,
+                EngineCategory.ECONOMY, 190);
+        Car renaultDuster = new Car(VehicleType.CAR, "Renault", "Duster", reanultDusterEngine,
+                5);
+        ClientManager.addVehicleToClient(roman, renaultDuster);
+
+        Engine audiEngine = new Engine(EngineType.DIESEL, EmissionLevel.EURO_6,
+                EngineCategory.STANDARD, 450);
+        Car audi = new Car(VehicleType.CAR, "Audi", "RS7", audiEngine, 5);
+        ClientManager.addVehicleToClient(ksenia, audi);
+
+        ClientManager.showVehiclesForGivenClient(roman);
+        ClientManager.showVehiclesForGivenClient(ksenia);
+
+        ClientManager.removeVehicleBasedOnClient(ksenia, audi);
+
+        System.out.println("Get vehicles after removing for client: ");
+        ClientManager.showVehiclesForGivenClient(ksenia);
+
+        System.out.println("Checking if client is Basic: " + ClientManager.isBasic(roman) + "\n");
+
+        System.out.println("Get loyalty point before adding manually to the user with id: " + roman.getId()
+                + "; Loyalty points: " + roman.getLoyaltyPoints());
+
+        roman.setLoyaltyPoints(14);
+
+        System.out.println("Get loyalty point after adding to the user with id: " + roman.getId()
+                + "; Loyalty points: " + roman.getLoyaltyPoints() + "\n");
 
 
-        // generate AIRPLANE objects
-        Airplane airplane = new Airplane(VehicleType.AIRPLANE, "Boeing", "777",
-                new Engine(EngineType.DIESEL, 777), 120);
-        airplane.setColor("Gray"); // optional attribute
+        ServiceRecord renaultServiceRecord = new ServiceRecord(roman,
+                LocalDate.of(2025, 5, 1), "Engine repair", 9990,
+                renaultDuster);
+        ServiceRecord renaultServiceRecord1 = new ServiceRecord(roman,
+                LocalDate.of(2025, 3, 2), "Oil replacement", 2000,
+                renaultDuster);
+        ServiceRecord bmwX6MServiceRecord = new ServiceRecord(ksenia,
+                LocalDate.of(2025, 3, 2), "Engine repair", 7777,
+                bmwX6M);
 
-        // generate TRAIN objects with overloaded constructor
-        Train train = new Train(VehicleType.TRAIN, "PKP Intercity", "Stadler", "Gray",
-                new Engine(EngineType.ELECTRICITY, 560),
-                7);
-        train.setSensors("Automatic Increasing Speed"); // multi-valued attribute
 
-        // generate SHIP objects
-        Ship ship = new Ship(VehicleType.SHIP, "PJATK Submarine", "YACHT 7778",
-                new Engine(EngineType.DIESEL, 800), 3);
-        ship.setColor("White"); // optional attribute
+        System.out.println("Loyalty points after adding service records, which is adding automatically: "
+                + roman.getLoyaltyPoints() + "\n");
 
-        // Extent
-        HashMap<String, Vehicle> vehicleList = VehicleManager.getRegisteredVehicles();
-        System.out.println("Get registered vehicles:");
-        printBasicInfo(vehicleList);
+        // polymorphic method call getDiscount()
+        System.out.println("Get discount for client: " + roman.getId() + " " + roman.getDiscount() + "%.");
+        System.out.println("Get discount for client: " + ksenia.getId() + " " + ksenia.getDiscount() + "%." + "\n");
 
-        // Extent-persistency - sve registered vehicles to the file
-        VehicleManager.saveRegisteredVehiclesToFile();
+        System.out.println("Service history for given client with ID: " + roman.getId()
+                + ", vehicle with ID: " + renaultDuster.getUniqueId() + " " + renaultDuster.getName()
+                + " " + renaultDuster.getModel() + "\n");
+        ClientManager.getListOfServiceRecordsForGivenClientAndVehicle(roman, renaultDuster);
 
-        // Removing vehicle from extent
-        VehicleManager.deleteVehicle("VehIclE-1");
+        // dynamically change the type of the client
+        ClientManager.promoteToVIP(roman.getId());
 
-        System.out.println("Get registered vehicles after removing:");
-        printBasicInfo(vehicleList);
+        System.out.println("Print details about client after promoting to VIP:");
+        ClientManager.printDetailsAboutAllClients();
 
-        // Extent-persistency - load registered vehicles from file
-        VehicleManager.loadRegisteredVehiclesFromFile();
-        vehicleList = VehicleManager.getRegisteredVehicles();
+        System.out.println("\n" + "Get discount for basic client: " + ksenia.getId() + " "
+                + ksenia.getDiscountInPercentage() + "%.");
+        System.out.println("Get discount after promote client to VIP: " + roman.getId() + " "
+                + roman.getDiscountInPercentage() + "%." + "\n");
 
-        System.out.println("Get registered vehicles from file:");
-        printBasicInfo(vehicleList);
 
-        System.out.println();
+        ServiceRecord bmwM550iServiceRecord = new ServiceRecord(roman,
+                LocalDate.of(2025, 5, 3), "Head-up display changed",
+                9990, bmwM550i);
 
-        // display detailed vehicle info, using Override method in subclasses displayInfo()
-        for (Vehicle vehicle : vehicleList.values()) {
-            vehicle.displayInfo();
-        }
+        System.out.println("Show all service records for promoted client: " + roman.getId() + " " + roman.getName());
+        ClientManager.getListOfAllServiceRecordsByGivenClient(roman);
 
-        // Derived attribute
-        System.out.println("New unique ID: " + bmw.generateUniqueId());
-
-    }
-
-    public static void printBasicInfo(HashMap<String, Vehicle> vehicleList) {
-        if (!vehicleList.isEmpty()) {
-            for (Vehicle vehicle : vehicleList.values()) {
-                System.out.print("{");
-                System.out.print(vehicle.getBasicVehicleInfo());
-                System.out.print("} \n");
-            }
-        } else {
-            System.out.println("Vehicle list is empty");
-        }
     }
 }

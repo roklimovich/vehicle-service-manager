@@ -1,0 +1,18 @@
+package pl.pja.edu.s27619.clients;
+
+public class VIPClient extends Client {
+    public VIPClient(String name, String surname, String phoneNumber, String email) {
+        super(name, surname, phoneNumber, email);
+
+    }
+
+    /**
+     * Method which return discount for VIP client and has 20% as discount.
+     *
+     * @return value which contains discount in percentage
+     */
+    @Override
+    public double getDiscount() {
+        return 0.2 * 100;
+    }
+}

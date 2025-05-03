@@ -18,7 +18,6 @@ public class Vehicle implements Serializable {
     private String model;
     private String color;
     private Engine engine;
-    private List<String> sensors;
     private Map<LocalDate, ServiceRecord> serviceRecords = new HashMap<>();
 
     /**
@@ -35,7 +34,6 @@ public class Vehicle implements Serializable {
         setName(name);
         setModel(model);
         setEngine(engine);
-        this.sensors = new ArrayList<>();
         VehicleManager.getRegisteredVehicles().put(uniqueId, this);
     }
 
@@ -55,7 +53,6 @@ public class Vehicle implements Serializable {
         setModel(model);
         setColor(color);
         setEngine(engine);
-        this.sensors = new ArrayList<>();
         VehicleManager.getRegisteredVehicles().put(uniqueId, this);
     }
 
@@ -158,7 +155,6 @@ public class Vehicle implements Serializable {
         System.out.println("Model:  " + model);
         System.out.println("Engine: " + engine);
         System.out.println("Color: " + (color != null ? color : "Not specified"));
-        System.out.println("Sensors: " + sensors);
         displayServiceHistory();
     }
 
@@ -218,19 +214,6 @@ public class Vehicle implements Serializable {
         this.color = color;
     }
 
-    /**
-     * Methods adds sensors to the vehicle, only in case if sensor is not null or empty.
-     *
-     * @param sensor String variable which contains the name which should be added
-     * @throws CheckDataException if sensor is null or empty
-     */
-    public void setSensors(String sensor) {
-        if (sensor == null || sensor.isBlank()) {
-            throw new CheckDataException("Sensor could not be null");
-        }
-
-        sensors.add(sensor);
-    }
 
     /**
      * Method sets the engine for vehicle, if it is not null.
@@ -245,6 +228,7 @@ public class Vehicle implements Serializable {
 
         this.engine = engine;
     }
+
 
     public Engine getEngine() {
         return engine;
@@ -262,10 +246,6 @@ public class Vehicle implements Serializable {
         return name;
     }
 
-    public List<String> getSensors() {
-        return sensors;
-    }
-
     public Optional<String> getColor() {
         return Optional.ofNullable(color);
     }
@@ -274,4 +254,7 @@ public class Vehicle implements Serializable {
         return model;
     }
 
+    public Map<LocalDate, ServiceRecord> getServiceRecords() {
+        return serviceRecords;
+    }
 }

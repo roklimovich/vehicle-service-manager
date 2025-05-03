@@ -1,0 +1,200 @@
+package pl.pja.edu.s27619.clients;
+
+import pl.pja.edu.s27619.exceptions.CheckDataException;
+import pl.pja.edu.s27619.service.ClientManager;
+import pl.pja.edu.s27619.vehicle.Vehicle;
+
+import java.util.LinkedList;
+import java.util.List;
+
+public abstract class Client {
+    private static int counter = 0;
+    private String id;
+    private String name;
+    private String surname;
+    private String phoneNumber;
+    private String email;
+    private int loyaltyPoints;
+    private double discount;
+    private List<Vehicle> clientVehicles;
+
+    /**
+     * Constructor to initialize Client object. Constructor automatically add client to the list of the registered
+     * clients in the system and add client vehicles to the system using ClientManager.
+     *
+     * @param name        String variable which contains information about the client name
+     * @param surname     String variable which contains information about the client surname
+     * @param phoneNumber String variable which contains information about the client phone number
+     * @param email       String variable which contains information about the client email
+     */
+    public Client(String name, String surname, String phoneNumber, String email) {
+        id = generateUniqueId();
+        setName(name);
+        setSurname(surname);
+        setPhoneNumber(phoneNumber);
+        setEmail(email);
+        loyaltyPoints = 0;
+        discount = getDiscount();
+        clientVehicles = new LinkedList<>();
+
+        ClientManager.addClientVehiclesToRegistered(id, clientVehicles);
+        ClientManager.addClientToRegistered(id, this);
+    }
+
+    /**
+     * Method which return discount based on the type of client. Basic client by default has 0% as discount.
+     */
+    public abstract double getDiscount();
+
+    /**
+     * Method checks if name is null or name is empty and throws exception, otherwise set name.
+     *
+     * @param name String variable which contains information about the name
+     */
+    public void setName(String name) {
+        if (name == null || name.isBlank()) {
+            throw new CheckDataException("Name could not be null or empty");
+        }
+
+        this.name = name;
+    }
+
+    /**
+     * Method checks if the surname is null or empty and throws exception, otherwise set the surname.
+     *
+     * @param surname contains information about the surname
+     */
+    public void setSurname(String surname) {
+        if (surname == null || surname.isBlank()) {
+            throw new CheckDataException("Surname could not be null or empty");
+        }
+
+        this.surname = surname;
+    }
+
+    /**
+     * Method checks if the phone number is null or empty and throws exception, otherwise set the phone number.
+     *
+     * @param phoneNumber String variable which contains information about the surname
+     */
+    //TODO implement checking correct number using patterns and regex expressions
+    public void setPhoneNumber(String phoneNumber) {
+        if (phoneNumber == null || phoneNumber.isBlank()) {
+            throw new CheckDataException("Phone number could not be null or empty");
+        }
+
+        this.phoneNumber = phoneNumber;
+    }
+
+    /**
+     * Method checks if the email is null or empty and throws exception, otherwise set the email to client.
+     *
+     * @param email String variable which contains information about the client email
+     */
+    //TODO implement checking correct email
+    public void setEmail(String email) {
+        if (email == null || email.isBlank()) {
+            throw new CheckDataException("Email could not be null or empty");
+        }
+
+        this.email = email;
+    }
+
+
+    /**
+     * Generates a unique ID for the client using counter of the Client objects.
+     *
+     * @return String with unique ID in special format "CLIENT-<counter>"
+     */
+    public String generateUniqueId() {
+        return "CLIENT-" + (++counter);
+    }
+
+
+    /**
+     * Method to update dynamically loyalty point based on service records on the system
+     *
+     * @param loyaltyPoints contains information about loyalty points to the current client
+     */
+    public void setLoyaltyPoints(int loyaltyPoints) {
+        this.loyaltyPoints = loyaltyPoints;
+    }
+
+
+    /**
+     * Method sets client vehicles to the current client.
+     *
+     * @param clientVehicles is list which contains information about each Vehicle of the client
+     */
+    public void setClientVehicles(List<Vehicle> clientVehicles) {
+        this.clientVehicles = clientVehicles;
+    }
+
+    /**
+     * Method sets ID to the client.
+     *
+     * @param id String which contains information about client ID
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    /**
+     * Method sets discount to the current client.
+     *
+     * @param discount double variable which contains discount rate
+     */
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public static int getCounter() {
+        return counter;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public List<Vehicle> getClientVehicles() {
+        return clientVehicles;
+    }
+
+    public double getDiscountInPercentage() {
+        return discount;
+    }
+
+    public int getLoyaltyPoints() {
+        return loyaltyPoints;
+    }
+
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", email='" + email + '\'' +
+                ", clientVehicles=" + clientVehicles + '\'' +
+                ", loyaltyPoint=" + loyaltyPoints + '\'' +
+                ", typeOfClient=" + getClass() +
+                '}';
+    }
+}
