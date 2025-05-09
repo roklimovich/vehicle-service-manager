@@ -95,7 +95,7 @@ public class Main {
                 + " " + renaultDuster.getModel() + "\n");
         ClientManager.getListOfServiceRecordsForGivenClientAndVehicle(roman, renaultDuster);
 
-        // dynamically change the type of the client
+        // dynamically change the type of the client (dynamic inheritance)
         ClientManager.promoteToVIP(roman.getId());
 
         System.out.println("Print details about client after promoting to VIP:");
