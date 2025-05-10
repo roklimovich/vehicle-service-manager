@@ -16,7 +16,8 @@ import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
-        // example of overlapping and multi-inheritance, using also abstract class for Admin
+        ClientManager clientManager = new ClientManager();
+        // example of overlapping
         Supervisor supervisor = new Supervisor("Roman", "Klimovich", "test@pjwstk.edu.pl");
         // example of usage methods which are implemented in interfaces
         System.out.println("Calculated budget per month: " + supervisor.calculateBudgetPerMonth());;
@@ -61,7 +62,7 @@ public class Main {
         System.out.println("Get vehicles after removing for client: ");
         ClientManager.showVehiclesForGivenClient(ksenia);
 
-        System.out.println("Checking if client is Basic: " + ClientManager.isBasic(roman) + "\n");
+        System.out.println("Checking if client is Basic: " + clientManager.isBasic(roman) + "\n");
 
         System.out.println("Get loyalty point before adding manually to the user with id: " + roman.getId()
                 + "; Loyalty points: " + roman.getLoyaltyPoints());
@@ -112,7 +113,9 @@ public class Main {
                 9990, bmwM550i);
 
         System.out.println("Show all service records for promoted client: " + roman.getId() + " " + roman.getName());
-        ClientManager.getListOfAllServiceRecordsByGivenClient(roman);
+        // example of multi-inheritance
+        clientManager.getListOfAllServiceRecordsByGivenClient(roman);
+        System.out.println(clientManager.isBasic(roman));
 
     }
 }

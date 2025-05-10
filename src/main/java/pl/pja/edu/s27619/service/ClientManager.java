@@ -6,12 +6,14 @@ import pl.pja.edu.s27619.clients.VIPClient;
 import pl.pja.edu.s27619.exceptions.CheckDataException;
 import pl.pja.edu.s27619.exceptions.ClientNotFoundException;
 import pl.pja.edu.s27619.exceptions.VehicleNotFoundException;
+import pl.pja.edu.s27619.service.interfaces.Manager;
+import pl.pja.edu.s27619.service.interfaces.Validation;
 import pl.pja.edu.s27619.vehicle.Vehicle;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class ClientManager {
+public class ClientManager implements Manager, Validation {
     private static final int POINTS_PROMOTE_TO_VIP = 15;
     private static HashMap<String, List<Vehicle>> registeredClientVehicles = new HashMap<>();
     private static HashMap<String, Client> registeredClients = new HashMap<>();
@@ -183,7 +185,7 @@ public class ClientManager {
      *
      * @param client variable which contains information about the Client
      */
-    public static void getListOfAllServiceRecordsByGivenClient(Client client) {
+    public void getListOfAllServiceRecordsByGivenClient(Client client) {
         if (client == null) {
             throw new ClientNotFoundException("Client could not be null");
         }
@@ -208,7 +210,7 @@ public class ClientManager {
         return registeredVIPClients.containsKey(givenId);
     }
 
-    public static boolean isBasic(Client client) {
+    public boolean isBasic(Client client) {
         if (registeredVIPClients.containsKey(client.getId())) {
             return false;
         }
