@@ -4,6 +4,8 @@ import pl.pja.edu.s27619.administration.Supervisor;
 import pl.pja.edu.s27619.clients.BasicClient;
 import pl.pja.edu.s27619.clients.Client;
 import pl.pja.edu.s27619.service.ClientManager;
+import pl.pja.edu.s27619.service.interfaces.Manager;
+import pl.pja.edu.s27619.service.interfaces.Validation;
 import pl.pja.edu.s27619.vehicle.Car;
 import pl.pja.edu.s27619.vehicle.VehicleType;
 import pl.pja.edu.s27619.vehicle.component.EmissionLevel;
@@ -16,7 +18,8 @@ import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
-        ClientManager clientManager = new ClientManager();
+        Manager manager = new ClientManager();
+        Validation validationManager = new ClientManager();
         // example of overlapping
         Supervisor supervisor = new Supervisor("Roman", "Klimovich", "test@pjwstk.edu.pl");
         // example of usage methods which are implemented in interfaces
@@ -62,7 +65,8 @@ public class Main {
         System.out.println("Get vehicles after removing for client: ");
         ClientManager.showVehiclesForGivenClient(ksenia);
 
-        System.out.println("Checking if client is Basic: " + clientManager.isBasic(roman) + "\n");
+        // example of multi-inheritance
+        System.out.println("Checking if client is Basic: " + validationManager.isBasic(roman) + "\n");
 
         System.out.println("Get loyalty point before adding manually to the user with id: " + roman.getId()
                 + "; Loyalty points: " + roman.getLoyaltyPoints());
@@ -112,8 +116,8 @@ public class Main {
 
         System.out.println("Show all service records for promoted client: " + roman.getId() + " " + roman.getName());
         // example of multi-inheritance
-        clientManager.getListOfAllServiceRecordsByGivenClient(roman);
-        System.out.println(clientManager.isBasic(roman));
-
+        manager.getListOfAllServiceRecordsByGivenClient(roman);
+        // example of multi-inheritance
+        System.out.println("Checking if client is Basic: " + validationManager.isBasic(roman) + "\n");
     }
 }
