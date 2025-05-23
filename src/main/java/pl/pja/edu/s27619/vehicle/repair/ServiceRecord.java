@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public class ServiceRecord implements Serializable {
+
     private String uniqueId;
     private Client client;
     private LocalDate serviceDate;

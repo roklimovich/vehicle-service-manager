@@ -1,5 +1,6 @@
 package pl.pja.edu.s27619.clients;
 
+import jakarta.persistence.*;
 import pl.pja.edu.s27619.exceptions.CheckDataException;
 import pl.pja.edu.s27619.service.ClientManager;
 import pl.pja.edu.s27619.vehicle.Vehicle;
@@ -7,16 +8,41 @@ import pl.pja.edu.s27619.vehicle.Vehicle;
 import java.util.LinkedList;
 import java.util.List;
 
+@Entity
+@Table(name = "Client")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "client_type")
 public abstract class Client {
-    private static int counter = 0;
+    @Id
+    @Column(name = "client_id", nullable = false, updatable = false)
     private String id;
+
+    @Column(name = "name", length = 60, nullable = false)
     private String name;
+
+    @Column(name = "surname", length = 80, nullable = false)
     private String surname;
+
+    @Column(name = "phone_number", length = 20, nullable = false)
     private String phoneNumber;
+
+    @Column(name = "email", length = 50, nullable = false)
     private String email;
+
+    @Column(name = "loyalty_points", nullable = false)
     private int loyaltyPoints;
+
+    @Column(name = "discount", nullable = false)
     private double discount;
+
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Vehicle> clientVehicles;
+
+    @Transient
+    private static int counter = 0;
+
+    // for hibernate purpose
+    public Client() {}
 
     /**
      * Constructor to initialize Client object. Constructor automatically add client to the list of the registered
@@ -194,6 +220,7 @@ public abstract class Client {
                 ", email='" + email + '\'' +
                 ", clientVehicles=" + clientVehicles + '\'' +
                 ", loyaltyPoint=" + loyaltyPoints + '\'' +
+                ", discount=" + getDiscount() + "%" + '\'' +
                 ", typeOfClient=" + getClass() +
                 '}';
     }

@@ -1,14 +1,39 @@
 package pl.pja.edu.s27619.vehicle.component;
 
+import jakarta.persistence.*;
 import pl.pja.edu.s27619.exceptions.CheckDataException;
+import pl.pja.edu.s27619.vehicle.Vehicle;
 
 import java.io.Serializable;
 
+@Entity
+@Table(name = "Engine")
 public class Engine implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "engine_id")
+    private Long id;  // Must be here
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
     private EngineType engineType; // multi-aspect
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "emission_level")
     private EmissionLevel emissionLevel; // multi-aspect
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "engine_category")
     private EngineCategory engineCategory; //multi-aspect
+
+    @Column(name = "power")
     private int power;
+
+    @OneToOne(mappedBy = "engine")
+    private Vehicle vehicle;
+
+    // for Hibernate purpose
+    public Engine() {}
 
     /**
      * Constructor to initialize Engine object.

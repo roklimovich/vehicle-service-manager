@@ -1,6 +1,13 @@
 package pl.pja.edu.s27619.clients;
 
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("BASIC")
 public class BasicClient extends Client {
+    public BasicClient() {}
+
     public BasicClient(String name, String surname, String phoneNumber, String email) {
         super(name, surname, phoneNumber, email);
     }

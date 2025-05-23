@@ -1,5 +1,6 @@
 package pl.pja.edu.s27619.administration;
 
+import jakarta.persistence.*;
 import pl.pja.edu.s27619.administration.interfaces.Accountant;
 import pl.pja.edu.s27619.administration.interfaces.Distributor;
 import pl.pja.edu.s27619.administration.interfaces.SystemAdmin;
@@ -8,7 +9,6 @@ import pl.pja.edu.s27619.exceptions.ServiceRecordException;
 import pl.pja.edu.s27619.service.mechanic.Mechanic;
 import pl.pja.edu.s27619.system.SystemInformation;
 import pl.pja.edu.s27619.vehicle.repair.ServiceRecord;
-import pl.pja.edu.s27619.warehouse.Part;
 import pl.pja.edu.s27619.warehouse.PartOrder;
 
 import java.text.DecimalFormat;
@@ -16,9 +16,17 @@ import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
+@Entity
+@DiscriminatorValue("SUPERVISOR")
 public class Supervisor extends Admin implements SystemAdmin, Accountant, Distributor {
+    @Transient
     private SystemInformation system = new SystemInformation();
+
+    @OneToMany(mappedBy = "supervisor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PartOrder> partOrders;
+
+    public Supervisor() {
+    } // for hibernate purpose
 
     public Supervisor(String name, String surname, String email) {
         super(name, surname, email);
@@ -85,12 +93,12 @@ public class Supervisor extends Admin implements SystemAdmin, Accountant, Distri
     /**
      * Method ordering parts and add them to the list of all order parts by current supervisor.
      *
-     * @param part     variable which contains necessary information about the ordered part
+     * @param partName variable which contains necessary information about the ordered part
      * @param quantity int variable contains amount of the part, which should be ordered
      * @param cost     double variable which contains information about the cost for 1 part
      */
-    public void orderPart(Part part, int quantity, double cost) {
-        PartOrder order = new PartOrder(this, part, quantity, cost);
+    public void orderPart(String partName, int quantity, double cost) {
+        PartOrder order = new PartOrder(this, partName, quantity, cost);
 
         partOrders.add(order);
     }

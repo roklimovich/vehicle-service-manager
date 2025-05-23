@@ -1,11 +1,27 @@
 package pl.pja.edu.s27619.administration;
 
+import jakarta.persistence.*;
 import pl.pja.edu.s27619.exceptions.CheckDataException;
 
+@Entity
+@Table(name = "Administrator")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "admin_type")
 public abstract class Admin {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "surname", nullable = false)
     private String surname;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
+
+    public Admin() {} // for hibernate purpose
 
     /**
      * Constructor to initialize Admin object.

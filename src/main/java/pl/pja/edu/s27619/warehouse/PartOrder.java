@@ -1,30 +1,49 @@
 package pl.pja.edu.s27619.warehouse;
 
+import jakarta.persistence.*;
 import pl.pja.edu.s27619.administration.Supervisor;
 import pl.pja.edu.s27619.exceptions.CheckDataException;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Entity
+@Table(name = "part_order")
 public class PartOrder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long Id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "supervisor_id")
     private Supervisor supervisor;
-    private Part part;
+
+    @Column(name = "part_name", nullable = false)
+    private String partName;
+
+    @Column(name = "quantity", nullable = false)
     private int quantity;
+
+    @Column(name = "cost", nullable = false)
     private double cost;
+
+    @Column(name = "order_date", nullable = false)
     private LocalDateTime orderTime;
+
+    public PartOrder(){}
 
     /**
      * Constructor which generated object of class PartOrder and requires information, which should be added for sure,
      * to proceed the correct work of the system.
      *
      * @param supervisor variable which contains information about supervisor, which order the part
-     * @param part       variable with information about part, which should be ordered
+     * @param partName   variable with the name about part, which should be ordered
      * @param quantity   contains the number of parts, which should be ordered
      * @param cost       contains how much the one part which should be ordered costs
      */
-    public PartOrder(Supervisor supervisor, Part part, int quantity, double cost) {
+    public PartOrder(Supervisor supervisor, String partName, int quantity, double cost) {
         setSupervisor(supervisor);
-        setPart(part);
+        setPart(partName);
         setQuantity(quantity);
         setCost(cost);
         setOrderTime();
@@ -48,14 +67,14 @@ public class PartOrder {
      * Method sets the part to the PartOrder. Firstly, checks if part is null or not, if yes - throws
      * exception, otherwise set the part.
      *
-     * @param part contains information about the part which should be ordered
+     * @param partName contains information about the part which should be ordered
      */
-    public void setPart(Part part) {
-        if (part == null) {
+    public void setPart(String partName) {
+        if (partName == null || partName.isBlank()) {
             throw new CheckDataException("Part could not be null");
         }
 
-        this.part = part;
+        this.partName = partName;
     }
 
     /**
@@ -106,7 +125,7 @@ public class PartOrder {
 
     @Override
     public String toString() {
-        return part.getName() + " quantity: " + quantity + ", Costs: " + cost
+        return partName + " quantity: " + quantity + ", Costs: " + cost
                 + ", Time: " + getFormattedOrderTime(orderTime);
     }
 }

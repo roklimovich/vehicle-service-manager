@@ -1,5 +1,7 @@
 package pl.pja.edu.s27619.vehicle;
 
+import jakarta.persistence.*;
+import pl.pja.edu.s27619.clients.Client;
 import pl.pja.edu.s27619.exceptions.CheckDataException;
 import pl.pja.edu.s27619.service.VehicleManager;
 import pl.pja.edu.s27619.vehicle.component.Engine;
@@ -10,17 +12,45 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
+@Entity
+@Table(name = "Vehicle")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Vehicle implements Serializable {
-
+    @Id
+    @Column(name = "vehicle_id", nullable = false, updatable = false)
     private String uniqueId;
-    private static int idCounter;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "vehicle_type", nullable = false)
     private VehicleType vehicleType;
+
+    @Column(name = "name", length = 60, nullable = false)
     private String name;
+
+    @Column(name = "model", length = 60, nullable = false)
     private String model;
+
+    @Column(name = "color", length = 60)
     private String color;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id")
+    private Client owner;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "engine_id")
     private Engine engine;
+
+    @Transient
     private Map<LocalDate, ServiceRecord> serviceRecords = new HashMap<>();
+
+    @OneToMany(mappedBy = "vehicle", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<VehicleCertificate> vehicleCertificates = new ArrayList<>();
+
+    @Transient
+    private static int idCounter;
+
+    public Vehicle() {}
 
     /**
      * Constructor to initialize Vehicle object without a color.
@@ -254,6 +284,19 @@ public class Vehicle implements Serializable {
         }
     }
 
+    /**
+     * Method to set the owner for the vehicle.
+     *
+     * @param owner variable of type Client, which has information about the vehicle owner
+     */
+    public void setOwner(Client owner) {
+        if (owner == null) {
+            throw new CheckDataException("Owner must be assigned for vehicle and could not be null");
+        }
+
+        this.owner = owner;
+    }
+
     public Engine getEngine() {
         return engine;
     }
@@ -281,4 +324,17 @@ public class Vehicle implements Serializable {
     public Map<LocalDate, ServiceRecord> getServiceRecords() {
         return serviceRecords;
     }
+
+    public Client getOwner() {
+        return owner;
+    }
+
+    public List<VehicleCertificate> getVehicleCertificates() {
+        return vehicleCertificates;
+    }
+
+    public String getFullName() {
+        return getName() + " " + getModel();
+    }
+
 }
