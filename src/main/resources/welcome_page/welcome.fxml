@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="borderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="916.0" prefWidth="1610.0" style="-fx-background-color: rgb(14, 18, 22);" stylesheets="/welcome_page/style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pja.edu.s27619.gui_controllers.WelcomePageController">
+    <center>
+        <AnchorPane fx:id="anchorPane" prefHeight="626.0" prefWidth="1010.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="428.0" fitWidth="451.0" layoutX="591.0" layoutY="238.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/zr_performance_logo_transparent.png" />
+                    </image>
+                </ImageView>
+                <Button fx:id="logInButton" alignment="CENTER" contentDisplay="CENTER" layoutX="662.0" layoutY="755.0" mnemonicParsing="false" onKeyPressed="#enterPressed" onMouseClicked="#mouseClicked" prefHeight="72.0" prefWidth="286.0" style="-fx-background-color: rgb(14, 18, 22);" text="Log in into system" textAlignment="CENTER" textFill="WHITE" underline="true">
+                    <font>
+                        <Font name="System Bold" size="23.0" />
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

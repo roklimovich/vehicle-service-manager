@@ -1,0 +1,8 @@
+#backButtonFromSettings, #saveButton {
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+}
+
+#backButtonFromSettings:hover, #saveButton:hover {
+    -fx-text-fill: rgb(66, 133, 244);
+}

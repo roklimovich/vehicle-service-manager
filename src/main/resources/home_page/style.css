@@ -1,0 +1,19 @@
+#homeButton, #manageButton, #systemInfoButton, #logOutButton, #shopButton, #settingsButton {
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#homeButton:hover, #manageButton:hover, #systemInfoButton:hover, #logOutButton:hover, #shopButton:hover,
+#settingsButton:hover {
+    -fx-text-fill: rgb(66, 133, 244);
+}
+
+#scheduleTable {
+    -fx-font-size: 17;
+    -fx-cursor: hand;
+    -fx-font-family: "Century Gothic";
+    /*-fx-background-color: none;*/
+   /*-fx-text-fill: white;*/
+}
+
+

@@ -1,0 +1,19 @@
+#comboBoxType, #comboBoxCategory, #comboBoxLevel {
+    -fx-font-family: "Century Gothic";
+    -fx-font-size: 20;
+}
+
+#engineList {
+    -fx-font-size: 16;
+    -fx-cursor: hand;
+    -fx-font-family: "Century Gothic";
+}
+
+#backButton, #createButton, #deleteButton {
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#backButton:hover, #createButton:hover, #deleteButton:hover {
+    -fx-text-fill: rgb(66, 133, 244);
+}

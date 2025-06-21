@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="916.0"
+            prefWidth="1610.0" style="-fx-background-color: rgb(14, 18, 22);" stylesheets="/signup_page/style.css"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="pl.pja.edu.s27619.gui_controllers.LogInController">
+    <left>
+        <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="916.0" fitWidth="555.0">
+                    <image>
+                        <Image url="@img/logo.png"/>
+                    </image>
+                </ImageView>
+                <Button fx:id="backButton" mnemonicParsing="false" onMouseClicked="#leftMouseClickedForBack"
+                        prefHeight="55.0" prefWidth="90.0" style="-fx-background-color: none;" text="←"
+                        textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="29.0"/>
+                    </font>
+                </Button>
+            </children>
+        </AnchorPane>
+    </left>
+    <right>
+        <AnchorPane onKeyPressed="#enterPressed" prefHeight="916.0" prefWidth="1074.0" BorderPane.alignment="CENTER">
+            <children>
+                <ImageView fitHeight="166.0" fitWidth="148.0" layoutX="480.0" layoutY="134.0">
+                    <image>
+                        <Image url="@img/lock.png"/>
+                    </image>
+                </ImageView>
+                <Label layoutX="359.0" layoutY="431.0" prefHeight="54.0" prefWidth="121.0" text="Username"
+                       textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="24.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="359.0" layoutY="518.0" prefHeight="41.0" prefWidth="114.0" text="Password"
+                       textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="24.0"/>
+                    </font>
+                </Label>
+                <TextField fx:id="username" layoutX="543.0" layoutY="444.0" prefHeight="25.0" prefWidth="236.0"
+                           promptText="Username">
+                    <font>
+                        <Font name="Century Gothic" size="15.0"/>
+                    </font>
+                </TextField>
+                <PasswordField fx:id="password" layoutX="543.0" layoutY="525.0" prefHeight="25.0" prefWidth="236.0"
+                               promptText="Password">
+                    <font>
+                        <Font name="Century Gothic" size="15.0"/>
+                    </font>
+                </PasswordField>
+                <Button fx:id="button" layoutX="490.0" layoutY="741.0" mnemonicParsing="false"
+                        onMouseClicked="#leftMouseClicked" prefHeight="57.0" prefWidth="129.0"
+                        style="-fx-background-color: #ffffff;" text="Log in">
+                    <font>
+                        <Font name="System Bold" size="17.0"/>
+                    </font>
+                </Button>
+                <Label fx:id="wrongLogin" alignment="CENTER" contentDisplay="TOP" layoutX="359.0" layoutY="389.0"
+                       prefHeight="26.0" prefWidth="424.0" textAlignment="CENTER" textFill="#f50202">
+                    <font>
+                        <Font size="16.0"/>
+                    </font>
+                </Label>
+            </children>
+        </AnchorPane>
+    </right>
+</BorderPane>

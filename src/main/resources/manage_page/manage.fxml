@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="916.0" prefWidth="1610.0" style="-fx-background-color: rgb(14, 18, 22);" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pja.edu.s27619.gui_controllers.ManagePageController">
+    <children>
+        <Label layoutX="280.0" layoutY="26.0" prefHeight="55.0" prefWidth="437.0" text="Manage" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="42.0" />
+            </font>
+        </Label>
+        <Button fx:id="backButtonFromManage" layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="47.0" prefWidth="92.0" style="-fx-background-color: none;" text="←" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="29.0" />
+            </font>
+        </Button>
+        <Button fx:id="clientsManageButton" contentDisplay="TOP" graphicTextGap="5.0" layoutX="207.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="196.0" prefWidth="280.0" style="-fx-background-color: none;" text="Clients" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="120.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/client_icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="Century Gothic" size="27.0" />
+            </font>
+        </Button>
+        <Button fx:id="vehiclesManageButton" contentDisplay="TOP" graphicTextGap="5.0" layoutX="640.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="196.0" prefWidth="280.0" style="-fx-background-color: none;" text="Vehicles" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="120.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/car_icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="Century Gothic" size="27.0" />
+            </font>
+        </Button>
+        <Button fx:id="servicesManageButton" contentDisplay="TOP" graphicTextGap="5.0" layoutX="1077.0" layoutY="216.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="196.0" prefWidth="280.0" style="-fx-background-color: none;" text="Service records" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="120.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/service_record_icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="Century Gothic" size="27.0" />
+            </font>
+        </Button>
+        <Button fx:id="mechanicManageButton" contentDisplay="TOP" graphicTextGap="5.0" layoutX="412.0" layoutY="498.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="196.0" prefWidth="280.0" style="-fx-background-color: none;" text="Mechanics" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="120.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/mechanic_icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="Century Gothic" size="27.0" />
+            </font>
+        </Button>
+        <Button fx:id="engineManageButton" contentDisplay="TOP" graphicTextGap="5.0" layoutX="846.0" layoutY="498.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="196.0" prefWidth="280.0" style="-fx-background-color: none;" text="Engines" textFill="WHITE">
+            <graphic>
+                <ImageView fitHeight="120.0" fitWidth="143.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/car_engine_icon.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+            <font>
+                <Font name="Century Gothic" size="27.0" />
+            </font>
+        </Button>
+    </children>
+</AnchorPane>

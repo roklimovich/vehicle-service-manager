@@ -1,0 +1,8 @@
+#logInButton {
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#logInButton:hover {
+    -fx-text-fill: rgb(66, 133, 244);
+}

@@ -1,0 +1,21 @@
+#backButtonFromVehicle, #createButton, #deleteButton, #editButton, #saveButton, #backButtonFromEditVehicle {
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#backButtonFromVehicle:hover, #createButton:hover, #deleteButton:hover, #editButton:hover, #saveButton:hover,
+#backButtonFromEditVehicle:hover {
+    -fx-text-fill: rgb(66, 133, 244);
+}
+
+
+#vehicleList {
+    -fx-font-size: 16;
+    -fx-cursor: hand;
+    -fx-font-family: "Century Gothic";
+}
+
+#comboBoxVehicleType, #vehicleEngineComboBox, #vehicleOwnerComboBox {
+    -fx-font-family: "Century Gothic";
+    -fx-font-size: 20;
+}

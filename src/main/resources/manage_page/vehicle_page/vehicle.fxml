@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="916.0" prefWidth="1610.0" style="-fx-background-color: rgb(14, 18, 22);" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="pl.pja.edu.s27619.gui_controllers.vehicle.VehicleManageController">
+    <children>
+        <Label layoutX="280.0" layoutY="26.0" prefHeight="55.0" prefWidth="437.0" text="Vehicles" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="42.0" />
+            </font>
+        </Label>
+        <Button fx:id="backButtonFromVehicle" layoutX="14.0" layoutY="26.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="47.0" prefWidth="92.0" style="-fx-background-color: none;" text="←" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="29.0" />
+            </font>
+        </Button>
+        <Label layoutX="56.0" layoutY="263.0" prefHeight="74.0" prefWidth="202.0" text="Name" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="32.0" />
+            </font>
+        </Label>
+        <Label layoutX="58.0" layoutY="337.0" prefHeight="74.0" prefWidth="202.0" text="Model" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="34.0" />
+            </font>
+        </Label>
+        <Label layoutX="56.0" layoutY="411.0" prefHeight="74.0" prefWidth="244.0" text="Engine" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="32.0" />
+            </font>
+        </Label>
+        <Button fx:id="createButton" alignment="BOTTOM_LEFT" graphicTextGap="15.0" layoutX="245.0" layoutY="753.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="74.0" prefWidth="209.0" style="-fx-background-color: none;" text="CREATE" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="24.0" />
+            </font>
+            <graphic>
+                <ImageView fitHeight="56.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/checkmark_button.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <Label layoutX="702.0" layoutY="139.0" prefHeight="42.0" prefWidth="148.0" text="Vehicles" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="33.0" />
+            </font>
+        </Label>
+        <TableView fx:id="vehicleList" editable="true" layoutX="700.0" layoutY="202.0" prefHeight="510.0" prefWidth="868.0">
+            <columns>
+                <TableColumn fx:id="vehicleIdColumn" prefWidth="112.0" text="Vehicle ID" />
+                <TableColumn fx:id="typeVehicleColumn" minWidth="0.0" prefWidth="108.0" text="Type" />
+                <TableColumn fx:id="vehicleNameColumn" prefWidth="140.0" text="Name" />
+                <TableColumn fx:id="vehicleModelColumn" prefWidth="142.0" text="Model" />
+                <TableColumn fx:id="vehicleColorColumn" prefWidth="120.0" text="Color" />
+            <TableColumn fx:id="ownerColumn" prefWidth="245.0" text="Owner" />
+            </columns>
+        </TableView>
+        <TextField fx:id="findButtonInVehicle" layoutX="1296.0" layoutY="142.0" onKeyPressed="#enterPressed" prefHeight="29.0" prefWidth="274.0" promptText="Find vehicle by name" style="-fx-background-radius: 20;">
+            <font>
+                <Font size="16.0" />
+            </font>
+        </TextField>
+        <Label layoutX="56.0" layoutY="485.0" prefHeight="74.0" prefWidth="244.0" text="Color" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="32.0" />
+            </font>
+        </Label>
+        <TextField fx:id="vehicleColorLabel" layoutX="310.0" layoutY="501.0" prefHeight="42.0" prefWidth="329.0" promptText="Enter color">
+            <font>
+                <Font name="Century Gothic" size="20.0" />
+            </font>
+        </TextField>
+        <Button fx:id="deleteButton" alignment="BOTTOM_LEFT" graphicTextGap="15.0" layoutX="925.0" layoutY="753.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="74.0" prefWidth="209.0" style="-fx-background-color: none;" text="DELETE" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="24.0" />
+            </font>
+            <graphic>
+                <ImageView fitHeight="56.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@img/delete_button.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Button>
+        <ComboBox fx:id="comboBoxVehicleType" editable="true" layoutX="310.0" layoutY="211.0" prefHeight="46.0" prefWidth="329.0" promptText="Choose vehicle type" />
+        <ComboBox fx:id="vehicleEngineComboBox" editable="true" layoutX="310.0" layoutY="425.0" prefHeight="46.0" prefWidth="329.0" promptText="Choose engine" stylesheets="@style.css" />
+        <Label alignment="CENTER" layoutX="193.0" layoutY="609.0" prefHeight="55.0" prefWidth="313.0" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="24.0" />
+            </font>
+        </Label>
+        <Label fx:id="wrongLabel" alignment="CENTER" layoutX="178.0" layoutY="664.0" prefHeight="55.0" prefWidth="380.0" textFill="#f50202">
+            <font>
+                <Font name="Century Gothic" size="24.0" />
+            </font>
+        </Label>
+        <Label layoutX="56.0" layoutY="197.0" prefHeight="74.0" prefWidth="244.0" text="Type" textFill="WHITE">
+            <font>
+                <Font name="Century Gothic" size="32.0" />
+            </font>
+        </Label>
+        <TextField fx:id="vehicleNameField" layoutX="310.0" layoutY="281.0" prefHeight="42.0" prefWidth="329.0" promptText="Enter vehicle name">
+            <font>
+                <Font name="Century Gothic" size="20.0" />
+            </font>
+        </TextField>
+      <TextField fx:id="vehicleModelField" layoutX="310.0" layoutY="353.0" prefHeight="42.0" prefWidth="329.0" promptText="Enter vehicle model">
+         <font>
+            <Font name="Century Gothic" size="20.0" />
+         </font>
+      </TextField>
+      <Button fx:id="editButton" alignment="BOTTOM_LEFT" graphicTextGap="15.0" layoutX="1234.0" layoutY="753.0" mnemonicParsing="false" onMouseClicked="#leftMouseClicked" prefHeight="74.0" prefWidth="209.0" style="-fx-background-color: none;" text="EDIT" textFill="WHITE">
+         <font>
+            <Font name="Century Gothic" size="24.0" />
+         </font>
+         <graphic>
+            <ImageView fitHeight="56.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@img/edit_button.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Label layoutX="56.0" layoutY="559.0" prefHeight="74.0" prefWidth="244.0" text="Owner" textFill="WHITE">
+         <font>
+            <Font name="Century Gothic" size="32.0" />
+         </font>
+      </Label>
+      <ComboBox fx:id="vehicleOwnerComboBox" editable="true" layoutX="310.0" layoutY="573.0" prefHeight="46.0" prefWidth="329.0" promptText="Choose vehicle owner" stylesheets="@style.css" visibleRowCount="5" />
+    </children>
+</AnchorPane>

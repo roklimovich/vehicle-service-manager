@@ -1,0 +1,10 @@
+#backButtonFromManage, #clientsManageButton, #vehiclesManageButton, #servicesManageButton, #certificatesManageButton,
+#engineManageButton, #mechanicManageButton {
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+}
+
+#backButtonFromManage:hover, #clientsManageButton:hover, #vehiclesManageButton:hover, #servicesManageButton:hover,
+#certificatesManageButton:hover, #engineManageButton:hover, #mechanicManageButton:hover {
+    -fx-text-fill: rgb(66, 133, 244);
+}

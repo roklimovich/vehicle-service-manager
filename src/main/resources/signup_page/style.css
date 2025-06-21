@@ -1,0 +1,14 @@
+#backButton {
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+#button {
+    -fx-text-fill: black;
+    -fx-cursor: hand;
+}
+
+#button:hover, #backButton:hover {
+    -fx-text-fill: rgb(66, 133, 244);
+}
+
