@@ -1,0 +1,70 @@
+package pl.pja.edu.s27619;
+
+import pl.pja.edu.s27619.exceptions.CheckDataException;
+import pl.pja.edu.s27619.vehicle.*;
+import pl.pja.edu.s27619.vehicle.component.Engine;
+import pl.pja.edu.s27619.vehicle.component.EngineType;
+import pl.pja.edu.s27619.vehicle.repair.ServiceRecord;
+
+import java.time.LocalDate;
+
+
+public class Main {
+    public static void main(String[] args) {
+
+        // Binary association: Vehicle has Engine
+        Engine toyotaEngine = new Engine(EngineType.DIESEL, 300);
+        Car toyotaCar = new Car(VehicleType.CAR, "Toyota", "Avensis", toyotaEngine, 5);
+        System.out.println("Engine type of toyotaCar: " + toyotaCar.getEngine().getEngineType());
+
+        // With Attribute: ServiceRecord has cost and description
+        Engine fordEngine = new Engine(EngineType.PETROL, 180);
+        Vehicle fordVehicle = new Car(VehicleType.CAR, "Ford", "Focus",
+                fordEngine, 4);
+        ServiceRecord attrRecord = new ServiceRecord(LocalDate.of(2025, 4, 10),
+                "Oil Change", 350.0, fordVehicle);
+        System.out.println(attrRecord);
+
+        // Qualified Association: Vehicle has service records with dates
+        Engine hyundaiEngine = new Engine(EngineType.ELECTRICITY, 250);
+        Vehicle hyundaiVehicle = new Car(VehicleType.CAR, "Hyundai", "Ioniq", hyundaiEngine,
+                5);
+        ServiceRecord q1 = new ServiceRecord(LocalDate.of(2025, 4, 1),
+                "Battery Check", 600.0, hyundaiVehicle);
+        ServiceRecord q2 = new ServiceRecord(LocalDate.of(2025, 6, 1),
+                "Brake Service", 450.0, hyundaiVehicle);
+        System.out.println("Lookup 2025-06-01: "
+                + hyundaiVehicle.getServiceRecordByDate(LocalDate.of(2025, 6, 1))
+                        .orElse(null));
+
+        // 4. Composition: ServiceRecord cannot exist without Vehicle
+        Engine mazdaEngine = new Engine(EngineType.DIESEL, 200);
+        Vehicle mazdaVehicle = new Car(VehicleType.CAR, "Mazda", "6", mazdaEngine, 5);
+        ServiceRecord compRecord = new ServiceRecord(LocalDate.of(2025, 5, 20),
+                "Tire Rotation", 220.0, mazdaVehicle);
+        System.out.println("Service history for Mazda:");
+        mazdaVehicle.displayServiceHistory();
+
+        // 5. 1..* Cardinality and Duplicate Check
+        Engine bmwEngine = new Engine(EngineType.PETROL, 240);
+        Vehicle bmwVehicle = new Car(VehicleType.CAR, "BMW", "M550i", bmwEngine, 5);
+        try {
+            ServiceRecord sr1 = new ServiceRecord(LocalDate.of(2025, 3, 2),
+                    "Oil replacement", 8888.0, bmwVehicle);
+            ServiceRecord sr2 = new ServiceRecord(LocalDate.of(2025, 5, 1),
+                    "Engine repair", 9990.0, bmwVehicle);
+
+            // Attempt to add duplicate service record for the same date
+            ServiceRecord duplicate = new ServiceRecord(LocalDate.of(2025, 3, 2),
+                    "Duplicate record", 5000.0, bmwVehicle);
+            bmwVehicle.addServiceRecord(duplicate); // should throw
+        } catch (CheckDataException e) {
+            System.out.println("Cannot add duplicated service record:");
+            System.out.println("ERROR");
+        }
+
+        // 6. Reverse connection: ServiceRecord -> Vehicle
+        System.out.println("Vehicle model from attrRecord: " + attrRecord.getVehicle().getModel());
+    }
+
+}
