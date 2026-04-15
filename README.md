@@ -29,8 +29,8 @@ The system models the core domain of an automotive service station — vehicles,
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/roklimovich/Vehicle-Service-Manager.git
-cd Vehicle-Service-Manager
+git clone https://github.com/roklimovich/vehicle-service-manager.git
+cd vehicle-service-manager
 ```
 
 ### 2. Build the project
